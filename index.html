@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remi AI - Sign In</title>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <h1>Remi AI Image Generator</h1>
+    <button onclick="signInWithGoogle()">Sign In with Google</button>
+    <p id="error"></p>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAgzibr5xK7Lxw4CPrb-3Bcynptu6ik5g",
+            authDomain: "imagegenplatform.firebaseapp.com",
+            projectId: "imagegenplatform",
+            storageBucket: "imagegenplatform.firebasestorage.app",
+            messagingSenderId: "529515713512",
+            appId: "1:529515713512:web:06f6c1bfa4da9465174a5d",
+            databaseURL: "https://imagegenplatform.firebaseio.com"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            document.getElementById('error').textContent = '';
+            auth.signInWithPopup(provider)
+                .then(result => {
+                    localStorage.setItem('userEmail', result.user.email);
+                    window.location.href = '/generate.html';
+                })
+                .catch(authError => {
+                    document.getElementById('error').textContent = 'Sign-in error: ' + authError.message;
+                });
+        }
+    </script>
+</body>
+</html>
